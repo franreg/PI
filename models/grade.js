@@ -15,8 +15,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
 
-
-
+  grade.findAllGrade = async () => {
+    try {
+      const grades = await models.grade.findAll();
+      return grades;
+    } catch (error) {
+      throw new Error('Erreur lors de la récupération des Grades');
+    }
+  };
   grade.init({
     acronyme: DataTypes.STRING,
     designation_grade: DataTypes.STRING

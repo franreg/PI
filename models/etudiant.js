@@ -13,6 +13,17 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
+
+  Etudiant.findAlletudiant = async () => {
+    try {
+      const etudiants = await Etudiant.findAll();
+      return etudiants;
+    } catch (error) {
+      throw new Error('Erreur lors de la récupération des étudiants');
+    }
+  };
+
+
   Etudiant.init({
     nom_etudiant: DataTypes.STRING,
     prenom_etudiant: DataTypes.STRING,
@@ -22,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     numero: DataTypes.STRING,
     sexe: DataTypes.STRING,
-    filiere: DataTypes.INTEGER
+    FiliereId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Etudiant',

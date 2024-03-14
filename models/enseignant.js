@@ -11,10 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Enseignant.belongsTo(models.grade,{foreignKey:'grade'});
-      Enseignant.belongsTo(models.specialisation,{foreignKey:'specialisation'});
+      Enseignant.belongsTo(models.grade,{foreignKey:'GradeId'});
+      Enseignant.belongsTo(models.grade,{foreignKey:'SpecialisationId'});
     }
   }
+
+  Enseignant.findAllEnseignant = async () => {
+    try {
+      const enseigant = await Enseignant.findAll();
+      return enseigant;
+    } catch (error) {
+      throw new Error('Erreur lors de la récupération des enseignants');
+    }
+  };
+
+
   Enseignant.init({
     nom_enseignant: DataTypes.STRING,
     prenom_enseignant: DataTypes.STRING,
@@ -24,8 +35,8 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     numero: DataTypes.STRING,
     sexe: DataTypes.STRING,
-    grade: DataTypes.STRING,
-    specialisation: DataTypes.STRING
+    GradeId: DataTypes.INTEGER,
+    SpecialisationId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Enseignant',

@@ -2,23 +2,23 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Enseignants', {
+    await queryInterface.createTable('Etudiants', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      nom_enseignant: {
+      nom_etudiant: {
         type: Sequelize.STRING
       },
-      prenom_enseignant: {
+      prenom_etudiant: {
         type: Sequelize.STRING
       },
-      dn_enseignant: {
+      dn_etudiant: {
         type: Sequelize.DATE
       },
-      matricule_enseignant: {
+      matricule_etudiant: {
         type: Sequelize.STRING
       },
       password: {
@@ -33,17 +33,10 @@ module.exports = {
       sexe: {
         type: Sequelize.STRING
       },
-      grade: {
-        type: Sequelize.STRING,
+      FiliereId: {
+        type: Sequelize.INTEGER,
         references:{
-          model:'grades',
-          key:'id'
-        }
-      },
-      specialisation: {
-        type: Sequelize.STRING,
-        references:{
-          model:'specialisations',
+          model:'Filieres',
           key:'id'
         }
       },
@@ -58,6 +51,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Enseignants');
+    await queryInterface.dropTable('Etudiants');
   }
 };
