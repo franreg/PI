@@ -23,7 +23,8 @@ module.exports={
     // fonction pour modifier un grade
     update: async(req,res)=>{
         const id = parseInt(req.params.id); // Récupère l'id dans l'URL
-
+        const { acronyme, designation_grade } = req.body; // création d'un élément qui prendra en paramètre les champs saisis 
+        // Si l'un des champs est vide
     try {
         // Vérifier que la spécialisation avec cet id existe
         const specialisationFound = await models.Specialisation.findByPk(id);
@@ -31,10 +32,10 @@ module.exports={
             return res.status(404).json({ error: "La spécialisation n'existe pas" });
         }
         // Supprimer l'élément dans la base de données
-        await models.Specialisation.destroy({ where: { id: id } });
-        return res.status(200).json({ success: "La spécialisation a été supprimée avec succès" });
+        await models.Specialisation.update({acronyme, designation_grade },{ where: { id: id } });
+        return res.status(200).json({ success: "La spécialisation a été modifiée avec succès" });
     } catch (error) {
-        res.status(500).json({ error: "Impossible de supprimer cette spécialisation, veuillez réessayer" });
+        res.status(500).json({ error: "Impossible de modifier cette spécialisation, veuillez réessayer" });
     }
     },
     //fonction pour supprimer un grade 

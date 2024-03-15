@@ -5,20 +5,20 @@ module.exports= {
 
     // Créer une maquette
     register: async(req,res)=>{
-        const { ddanad, dfanad, Filiereid, semestre, UEId1, UEId2, UEId3, UEId4, UEId5, UEId6, UEId7, UEId8, UEId9, UEId10 } = req.body; // création d'un élément qui prendra en paramètre les champs saisis 
+        const { AnneeId, FiliereId, semestre, UEId1, UEId2, UEId3, UEId4, UEId5, UEId6, UEId7, UEId8, UEId9, UEId10 } = req.body; // création d'un élément qui prendra en paramètre les champs saisis 
     // Si l'un des champs est vide
-    if (!ddanad || !dfanad || !Filiereid || !semestre) {
+    if (!AnneeId || !FiliereId || !semestre) {
         return res.status(400).json("Il y a des paramètres manquants");
     }
     try {
         // vérifier que la maquette avec ce ID existe
-        const maquetteFound = await models.Maquette.findOne({ where: { ddanad: ddanad, dfanad: dfanad, Filiereid: Filiereid, semestre: semestre } });
+        const maquetteFound = await models.Maquette.findOne({ where: {  AnneeId: AnneeId, FiliereId: FiliereId, semestre: semestre } });
         if (maquetteFound) {
             return res.status(409).json({ 'erreur': "La maquette existe déjà" });
         }
         // ajouter l'élément dans la base de données
-        const newMaquette = await models.Maquette.create({ ddanad, dfanad, Filiereid, semestre, UEId1, UEId2, UEId3, UEId4, UEId5, UEId6, UEId7, UEId8, UEId9, UEId10 });
-        return res.status(201).json({ 'filiereId': newMaquette.id });
+        const newMaquette = await models.Maquette.create({ AnneeId, FiliereId, semestre, UEId1, UEId2, UEId3, UEId4, UEId5, UEId6, UEId7, UEId8, UEId9, UEId10 });
+        return res.status(201).json({ 'FiliereId': newMaquette.id ,'message':"Une maquette vient d'être ajoutée"});
     } catch (erreur) {
         res.status(500).json({ 'erreur': "Impossible de créer cette maquette veuillez réessayer" })
     }
@@ -27,7 +27,7 @@ module.exports= {
     //Modifier une maquette
     update: async(req,res)=>{
         const id = parseInt(req.params.id);// Recupere l'id dans l'url
-        const { ddanad, dfanad, Filiereid, semestre, UEId1, UEId2, UEId3, UEId4, UEId5, UEId6, UEId7, UEId8, UEId9, UEId10 } = req.body; // création d'un élément qui prendra en paramètre les champs saisis 
+        const { AnneeId, FiliereId, semestre, UEId1, UEId2, UEId3, UEId4, UEId5, UEId6, UEId7, UEId8, UEId9, UEId10 } = req.body; // création d'un élément qui prendra en paramètre les champs saisis 
         // Si l'un des champs est vide
     
         try {
@@ -37,7 +37,7 @@ module.exports= {
                 return res.status(409).json({ 'erreur': "La maquette n'existe pas" });
             }
             // ajouter l'élément dans la base de données
-            await models.Maquette.update({ ddanad, dfanad, Filiereid, semestre, UEId1, UEId2, UEId3, UEId4, UEId5, UEId6, UEId7, UEId8, UEId9, UEId10 }, { where: { id: id } });
+            await models.Maquette.update({ AnneeId, FiliereId, semestre, UEId1, UEId2, UEId3, UEId4, UEId5, UEId6, UEId7, UEId8, UEId9, UEId10 }, { where: { id: id } });
             return res.status(201).json({ 'succès':"La modication à été effectuée "});
         } catch (erreur) {
             res.status(500).json({ 'erreur': "Impossible de modifier cette maquette veuillez réessayer" })
@@ -60,7 +60,7 @@ module.exports= {
             await models.Maquette.destroy({ where: { id: id } });
             return res.status(201).json({ 'succès':"La suppression à été effectuée "});
         } catch (erreur) {
-            res.status(500).json({ 'erreur': "Impossible de créer cette maquette veuillez réessayer" })
+            res.status(500).json({ 'erreur': "Impossible de supprimer cette maquette veuillez réessayer" })
         }
     },
 
@@ -71,14 +71,14 @@ module.exports= {
 
         try {
             // Rechercher toutes les maquettes ayant le même ID de filière
-            const maquettes = await models.Maquette.findAll({ where: { Filiereid: id } });
+            const maquettes = await models.Maquette.findAll({ where: { FiliereId: id } });
     
             if (maquettes.length === 0) {
                 return res.status(404).json({ 'erreur': "Aucune maquette trouvée pour cette filière" });
             }
     
             // Retourner les maquettes trouvées
-            return res.status(200).json({ 'Maquettes': maquettes });
+            return res.status(200).json({ 'Maquette': maquettes });
         } catch (erreur) {
             res.status(500).json({ 'erreur': "Impossible de récupérer les maquettes, veuillez réessayer" })
         }
@@ -94,5 +94,25 @@ module.exports= {
         }).catch(function(err){
             return res.status(500).json({'erreur':'problème de récuération des maquettes'})
         });
+    },
+
+    // Fonction pour recuperer une maquette par sa filière
+    getOne: async(req,res)=>{
+        const id = parseInt(req.params.id);// Recupere l'id dans l'url
+       
+        // Si l'un des champs est vide
+    
+        try {
+            // vérifier que la maquette avec ce ID existe
+            const maquetteFound = await models.Maquette.findOne({ where: { id: id } });
+            if (!maquetteFound) {
+                return res.status(409).json({ 'erreur': "La maquette n'existe pas" });
+            }
+            // Récuperer l'élément dans la base de données
+          
+            return res.status(201).json({ 'succès':maquetteFound});
+        } catch (erreur) {
+            res.status(500).json({ 'erreur': "Impossible de recuperer cette maquette veuillez réessayer" })
+        }
     }
 }

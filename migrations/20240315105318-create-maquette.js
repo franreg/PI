@@ -9,14 +9,19 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      ddanad: {
-        type: Sequelize.STRING
+      AnneeId: {
+        type: Sequelize.INTEGER,
+        references:{
+          model:'annees',
+          key: 'id'
+        }
       },
-      dfanad: {
-        type: Sequelize.STRING
-      },
-      Filiereid: {
-        type: Sequelize.INTEGER
+      FiliereId: {
+        type: Sequelize.INTEGER,
+        references:{
+          model:'Filieres',
+          key:'id'
+        }
       },
       semestre: {
         type: Sequelize.STRING

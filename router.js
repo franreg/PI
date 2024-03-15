@@ -8,7 +8,9 @@ const gradeCtrl = require('./Controllers/gradeCtrl');
 const specialisationCtrl = require('./Controllers/specialisationCtrl');
 const etudiantCtrl = require('./Controllers/etudiantCtrl');
 const enseignantCtrl = require('./Controllers/enseignantCtrl');
-
+const anneeCtrl = require('./Controllers/anneeCtrl');
+const noteexamenCtrl = require('./Controllers/examCtrl');
+const notecotiCtrl = require('./Controllers/cotiCtrl');
 
 
 exports.router = (function(){
@@ -169,6 +171,25 @@ exports.router = (function(){
     apiRouter.get('/ecue/all',ecueCtrl.AllECUE);
 
     /**
+     * Routes pour l'année acadèmiques
+     */
+
+    // Route pour créer une année académiques
+    apiRouter.post('/annee/register',anneeCtrl.register);
+
+    // Route pour modifier une année acadèmique
+    apiRouter.put('/annee/update/:id',anneeCtrl.update);
+
+    // Route pour supprimer une année académique
+    apiRouter.delete('/annee/delete/:id',anneeCtrl.delete);
+
+    // Route pour récuperer une année académique
+    apiRouter.get('/annee/one/:id',anneeCtrl.getOne);
+
+    // Route pour récuperer toutes les années académiques
+    apiRouter.get('/annee/all',anneeCtrl.AllAnnee);
+
+    /**
      * Route pour les maquettes
      */
 
@@ -181,11 +202,15 @@ exports.router = (function(){
     // Route pour supprimer une  route  
     apiRouter.delete('/maquette/delete/:id',maquetteCtrl.delete);
 
-    // Rouyte pour recuperer une maquette en fonction de la filière 
+    // Route pour recuperer une maquette en fonction de la filière 
     apiRouter.get('/maquette/filiere/:id',maquetteCtrl.getMaquettebyFiliere);
+
+    // Route pour recuperer une maquette à partir de l'ID
+    apiRouter.get('/maquette/one/:id',maquetteCtrl.getOne);
 
     //Route pour avoir toutes les maquettes 
     apiRouter.get('/maquette/all',maquetteCtrl.getAllMaquette);
+
 
     /**
      * Route  pour les grades d'un enseignant
@@ -224,6 +249,49 @@ exports.router = (function(){
 
     // Route pour recuperer tous les spécialisations
     apiRouter.get('/specialisaton/all',specialisationCtrl.getAllspecialisation);
+
+    /**
+     * Routes pour les notes d'examen
+     */
+
+    // Route pour enregistrer une nouvelle note d'examen pour les étudiants
+    apiRouter.post('/examen/register',noteexamenCtrl.register);
+
+    // Route pour modiifer les notes d'examen
+    apiRouter.put('/examen/update/:id',noteexamenCtrl.update);
+
+    // Route pour supprimer une note d'examen
+    apiRouter.delete('/examen/delete/:id',noteexamenCtrl.delete);
+
+    // Route pour recuperer une note d'examen
+    apiRouter.get('/examen/one/:id',noteexamenCtrl.getOne);
+
+    // Route pour recuperer l'ensemeble des notes d'un étudiants une note d'examen
+    apiRouter.get('/examen/etudiant/:id',noteexamenCtrl.getbyIDEtudiant);
+
+    // Route pour recupere toutes les  note d'examen
+    apiRouter.get('/examen/all',noteexamenCtrl.AllNoteExamen);
+
+     /**
+     * Routes pour les notes de controles continues
+     */
+    // Route pour enregistrer une nouvelle note d'examen pour les étudiants
+    apiRouter.post('/coti/register',notecotiCtrl.register);
+
+    // Route pour modiifer les notes d'examen
+    apiRouter.put('/coti/update/:id',notecotiCtrl.update);
+
+    // Route pour supprimer une note d'examen
+    apiRouter.delete('/coti/delete/:id',notecotiCtrl.delete);
+
+    // Route pour recuperer une note d'examen
+    apiRouter.get('/coti/one/:id',notecotiCtrl.getOne);
+
+    // Route pour recuperer l'ensemeble des notes d'un étudiants une note d'examen
+    apiRouter.get('/coti/etudiant/:id',notecotiCtrl.getbyIDEtudiant);
+
+    // Route pour recupere toutes les  note d'examen
+    apiRouter.get('/coti/all',notecotiCtrl.AllNoteCoti);
 
     return apiRouter;
 })();

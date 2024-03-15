@@ -39,7 +39,7 @@ module.exports={
                 SpecialisationId
             });
         
-            return res.status(201).json({ EnseignantId: newEnseignant.id });
+            return res.status(201).json({ EnseignantId: newEnseignant.id ,'Message':"L'enseignant à été crée"});
         } catch (error) {
             console.error(error);
             return res.status(500).json({ error: "Impossible de créer cet enseignant" });

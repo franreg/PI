@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const annee = require('./annee');
 module.exports = (sequelize, DataTypes) => {
   class Maquette extends Model {
     /**
@@ -11,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Maquette.belongsTo(models.annee,{foreignKey:'AnneeId'});
+      Maquette.belongsTo(models.Filiere,{foreignKey:'FiliereId'});
     }
   }
 
@@ -19,14 +22,13 @@ module.exports = (sequelize, DataTypes) => {
       const maquette = await Maquette.findAll();
       return maquette;
     }catch(erreur){
-      throw new Error('Erreur lors de la récupération des UE');
+      throw new Error('Erreur lors de la récupération des maquettes');
     }
   }
 
   Maquette.init({
-    ddanad: DataTypes.STRING,
-    dfanad: DataTypes.STRING,
-    Filiereid: DataTypes.INTEGER,
+    AnneeId: DataTypes.INTEGER,
+    FiliereId: DataTypes.INTEGER,
     semestre: DataTypes.STRING,
     UEId1: DataTypes.INTEGER,
     UEId2: DataTypes.INTEGER,
